@@ -1,0 +1,48 @@
+---
+title: "Motor Trend Analysis"
+date: "01/16/2015"
+output: pdf_document
+---
+
+*Loading the data*
+```{r, results="hide"}
+data(mtcars)
+```
+
+```{r}
+str(mtcars) 
+```
+
+```{r}
+summary(mtcars)
+```
+
+#converting to factors
+```{r}
+mtcars$cyl <- factor(mtcars$cyl)
+mtcars$vs <- factor(mtcars$vs, labels=c("V-engine", "Straight engine"))
+mtcars$gear <- factor(mtcars$gear)
+mtcars$carb <- factor(mtcars$carb)
+mtcars$am <- factor(mtcars$am,labels=c('Automatic','Manual'))
+```
+
+
+# Fitting the Model
+
+
+```{r, results="hide"}
+lmodel <- lm(mpg ~ ., data = mtcars)
+best_fit <- step(lmodel, direction = "backward")
+```
+
+```{r}
+summary(best_fit)
+```
+
+**based on the model,There is`1.8092` increase in mpg when changing from automatic to manual. This suggests that having a manual car is better for mpg**
+
+
+```{r}
+confint(best_fit)["amManual",]
+```
+
